@@ -7,7 +7,7 @@ client = Client()
 client.login('halls1424.bsky.social', 'Lakers1424')
 
 data_file_path = 'bluesky_strange_earth_data.json'
-seen_posts_path = 'seen_posts_strange_earth.txt'
+seen_posts_path = 'seen_posts.txt'
 key_words_used_path = 'key_words_used_strange_earth.txt'
 target_size_mb = 100
 
