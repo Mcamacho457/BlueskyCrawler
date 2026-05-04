@@ -8,7 +8,7 @@ client.login('halls1424.bsky.social', 'Lakers1424')
 
 
 data_file_path = 'sample_strange_earth_data.json'
-seen_posts_path = 'seen_posts_sample_strange_earth.txt'
+seen_posts_path = 'seen_posts_strange_earth.txt'
 key_words_used_path = 'key_words_used_sample_strange_earth.txt'
 target_size_mb = 2
 
@@ -30,6 +30,11 @@ def get_file_size_mb(path):
     return 0
 
 seen_posts = set()
+# Load existing seen posts to avoid duplicates
+if os.path.exists(seen_posts_path):
+    with open(seen_posts_path, "r", encoding="utf-8") as s:
+        for line in s:
+            seen_posts.add(line.strip())
 
 cursor = None
 
