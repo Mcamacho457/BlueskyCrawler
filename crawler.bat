@@ -14,7 +14,7 @@ if errorlevel 1 (
 )
 
 echo Installing required package...
-python -m pip install atproto
+python -m pip install atproto requests beautifulsoup4
 
 echo.
 echo Running crawlers in required order...
