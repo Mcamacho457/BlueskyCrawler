@@ -58,7 +58,7 @@ keywords = [
     "alien autopsy footage", "UFO dogfight", "UAP tracking system"
 ]
 
-#getting total size of output folder
+# getting total size of output folder
 def get_folder_size_mb(folder):
     total = 0
     for f in os.listdir(folder):
@@ -67,7 +67,7 @@ def get_folder_size_mb(folder):
             total += os.path.getsize(fp)
     return total / (1024 * 1024)
 
-#file writing in 10mb splits
+# 10mb file write splits
 def get_current_file(folder):
     index = 1
     while True:
@@ -78,7 +78,7 @@ def get_current_file(folder):
             return path
         index += 1
 
-#fetch webpage title from URL
+# fetch webpage title from URL
 def fetch_page_title(url):
     try:
         response = requests.get(url, timeout=5)
@@ -90,7 +90,7 @@ def fetch_page_title(url):
         pass
     return None
 
-#extract URL from post if it has one
+# extract URL from post if it has one
 def extract_url_from_post(post_view):
     try:
         embed = post_view.post.embed
@@ -101,18 +101,18 @@ def extract_url_from_post(post_view):
     return None
 
 seen_posts = set()
-#load previously seen posts so duplicates are not fetched again
+# load previously seen posts so duplicates are not fetched again
 if os.path.exists(seen_posts_path):
     with open(seen_posts_path, "r", encoding="utf-8") as s:
         seen_posts = set(line.strip() for line in s if line.strip())
 
-#load already used keywords to avoid repeating searches
+# load already used keywords to avoid repeating searches
 used_keywords = set()
 if os.path.exists(key_words_used_path):
     with open(key_words_used_path, "r", encoding="utf-8") as k:
         used_keywords = set(line.strip() for line in k if line.strip())
 
-#create output folder for stored data
+# creates output folder for stored data
 os.makedirs(output_dir, exist_ok=True)
 
 cursor = None
@@ -121,7 +121,7 @@ for word in keywords:
         print(f"Target of {target_size_mb}MB reached. Stopping.")
         break
 
-    #skip keywords that have already been used
+    # skip keywords that have already been used
     if word in used_keywords:
         print(f"Keyword '{word}' already used. Skipping.")
         continue
@@ -130,7 +130,7 @@ for word in keywords:
     try:
         with open(key_words_used_path, "a", encoding="utf-8") as k:
                 k.write(word + '\n')
-        #track used keywords to avoid repeating searches
+        # track used keywords to avoid repeating searches
         used_keywords.add(word)
 
         for i in range(5):
@@ -140,7 +140,7 @@ for word in keywords:
             cursor = search.cursor
 
             for post_view in search.posts:
-                #checking total folder size instead of single file size
+                # checking total folder size instead of single file size
                 if get_folder_size_mb(output_dir) >= target_size_mb:
                     break
                 if post_view.uri in seen_posts:
@@ -154,10 +154,10 @@ for word in keywords:
                     params={'uri': post_view.uri, 'depth': 30}
                 )
 
-                #store in variable first to add URL title if it has one
+                # store in variable first to add URL title if it has one
                 post_data = thread.model_dump()
 
-                #fetch and attatch URL title if post has a URL
+                # fetch and attatch URL title if post has a URL
                 url = extract_url_from_post(post_view)
                 if url:
                     post_data['linked_url'] = url
@@ -181,7 +181,7 @@ for word in keywords:
 
     except Exception as e:
         print(f"\nError fetching {word}: {e}")
-        time.sleep(5)
+        time.sleep(10)
 
 print(f'\nNumber of unique posts: {len(seen_posts)}')
 print("\nCollection Complete.")
