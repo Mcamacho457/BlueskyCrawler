@@ -13,8 +13,8 @@ then
     exit 1
 fi
 
-echo "Installing required package: atproto"
-python3 -m pip install --user atproto
+echo "Installing required package: atproto, requests, & beautifulsoup4"
+python3 -m pip install --user atproto requests beautifulsoup4
 
 echo ""
 echo "Running crawlers in required order..."

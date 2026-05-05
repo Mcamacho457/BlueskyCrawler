@@ -96,7 +96,7 @@ def main():
                 if not cursor:
                     break
                 for post_view in search.posts:
-                    if get_file_size_mb(data_file_path) >= target_size_mb:
+                    if total_dataset_size >= target_size_mb:
                         break
                     if post_view.uri in seen_posts:
                         continue

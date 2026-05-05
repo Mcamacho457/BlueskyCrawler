@@ -6,11 +6,11 @@ from bs4 import BeautifulSoup #parse HTML titles
 from atproto import Client
 
 client = Client()
-client.login('azka_b.bsky.social', 'dkt2-irke-bscz-trxp')
+client.login('mikenike034.bsky.social', 'c4dp-bbfd-7576-u6z2')
+#client.login('azka_b.bsky.social', 'dkt2-irke-bscz-trxp')
 
 output_dir = 'bluesky_paranormal_data'
 seen_posts_path = 'seen_posts.txt'
-key_words_used_path = 'key_words_used.txt'
 
 target_size_mb = 150
 max_file_size_mb = 10
@@ -74,12 +74,6 @@ if os.path.exists(seen_posts_path):
     with open(seen_posts_path, "r", encoding="utf-8") as s:
         seen_posts = set(line.strip() for line in s if line.strip())
 
-#load already used keywords to avoid repeating searches
-used_keywords = set()
-if os.path.exists(key_words_used_path):
-    with open(key_words_used_path, "r", encoding="utf-8") as k:
-        used_keywords = set(line.strip() for line in k if line.strip())
-
 #create output folder for stored data
 os.makedirs(output_dir, exist_ok=True)
 
@@ -88,19 +82,9 @@ for word in keywords:
     if get_folder_size_mb(output_dir) >= target_size_mb:
         print(f"Target of {target_size_mb}MB reached. Stopping.")
         break
-
-    #skip keywords that have already been used
-    if word in used_keywords:
-        print(f"Keyword '{word}' already used. Skipping.")
-        continue
         
     print(f"Searching for: {word}...")
     try:
-        with open(key_words_used_path, "a", encoding="utf-8") as k:
-                k.write(word + '\n')
-        #track used keywords to avoid repeating searches
-        used_keywords.add(word)
-
         for i in range(5):
             search = client.app.bsky.feed.search_posts(
                 params={'q': word, 'limit': 100, 'cursor': cursor}
@@ -140,6 +124,7 @@ for word in keywords:
 
                 current_size = get_folder_size_mb(output_dir)
                 print(f"Current Progress: {current_size:.2f} MB, page = {i+1}", end="\r")
+                time.sleep(0.5)
 
             if not cursor:
                 break
