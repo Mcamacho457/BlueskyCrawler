@@ -6,8 +6,7 @@ from bs4 import BeautifulSoup #parse HTML titles
 from atproto import Client
 
 client = Client()
-client.login('mikenike034.bsky.social', 'c4dp-bbfd-7576-u6z2')
-#client.login('azka_b.bsky.social', 'dkt2-irke-bscz-trxp')
+client.login('azka-b.bsky.social', 'baxl-e7cr-plbl-rly6')
 
 output_dir = 'bluesky_paranormal_data'
 seen_posts_path = 'seen_posts.txt'
@@ -23,7 +22,10 @@ keywords = [
     "exorcism", "interdimensional beings", "skinwalker", "mothman", "sleep paralysis",
     "time slip", "paranormal activity", "spirit communication", "ouija board",
     "haunted location", "ghost encounter", "supernatural phenomenon",
-    "clairvoyance", "psychic ability", "telekinesis"
+    "clairvoyance", "psychic ability", "telekinesis", "spirit possession", "levitation",
+    "telepathy", "mediumship", "psychic medium", "ghost hunting", "paranormal investigation",
+    "cursed object", "resurrection", "spirit world", "witchcraft", "sorcery", "voodoo curse",
+      "third eye awakening"
 ]
 
 #getting total size of output folder
