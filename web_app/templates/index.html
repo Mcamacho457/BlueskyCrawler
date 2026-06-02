@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bluesky Search Engine</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bluesky Search Engine</h1>
+
+        <form method="POST" action="/">
+            <input 
+                type="text" 
+                name="query" 
+                placeholder="Enter search query..." 
+                value="{{ query }}"
+                required
+            >
+            <div class="topk-container">
+            <label for="topk" class="topk-label">
+                Results:
+            </label>
+            <input
+                id="topk"
+                class="topk-input"
+                type="number"
+                name="topk"
+                placeholder=""
+                min="1"
+                max="50"
+                value="{{ topk if topk else 10 }}"
+                required
+            >
+            </div>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if query %}
+            <h2>Search results for: "{{ query }}"</h2>
+        {% endif %}
+
+        {% if results %}
+            <p>Showing top {{ results|length }} results</p>
+
+            {% for result in results %}
+                <div class="result-card">
+                    <h3>
+                        <a href="{{ result.url }}" target="_blank">
+                            {{ result.title }}
+                        </a>
+                    </h3>
+                    <p>By: {{ result.display_name }}</p>
+                    <p>Category: {{ result.category }}</p>
+                    <p><strong>Username:</strong> {{ result.username }}</p>
+                    <p><strong>Score:</strong> {{ result.score }}</p>
+                    <p><strong>Time:</strong> {{ result.raw_time }}</p>
+
+                    <p>{{ result.post_text }}</p>
+
+                    <p class="meta">
+                        Likes: {{ result.likes }} |
+                        Reposts: {{ result.reposts }} |
+                        Replies: {{ result.replies }}
+                    </p>
+                </div>
+            {% endfor %}
+        {% elif query %}
+            <p>No results found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
