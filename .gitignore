@@ -3,3 +3,8 @@ __pycache__/
 sample_data.json
 bluesky_index/
 .ipynb_checkpoints/
+bluesky_conspiracy_data/
+bluesky_paranormal_data/
+bluesky_strange_earth_data/
+bluesky_ufo_data/
+seen_posts.txt
